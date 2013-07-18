@@ -25,9 +25,9 @@ int main( int argc, char* argv[] )
 	size_t screenSize = ( screen.width * screen.height * screen.depth / 8 ) + 15;
 
 #ifdef HOST
-	screen.pixels.pHc = malloc( screenSize );
+	screen.pixels.pHc = (HighColor*)malloc( screenSize );
 #else
-	screen.pixels.pHc = Mxalloc( screenSize, MX_STRAM );
+	screen.pixels.pHc = (HighColor*)Mxalloc( screenSize, MX_STRAM );
 #endif
 	// align on 16 bytes, beware you can't use (M)free anymore
 	intptr_t ptr = (intptr_t)screen.pixels.pHc;
@@ -47,6 +47,10 @@ int main( int argc, char* argv[] )
 			{
 				*p++ = col;
 			}
+
+			dspSendUnsignedWord( col );
+			// do the math :)
+			col = dspReceiveWord();
 		}
 	}
 
@@ -65,8 +69,6 @@ void TimerDCallback( void )
 void TimerVblCallback( void )
 {
 	isVblSet = 1;
-
-	col++;
 }
 
 Bitmap* ScreenGetPhysical( void )

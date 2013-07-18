@@ -59,7 +59,7 @@
   </action>
   <action name="actionDSP_Engine">
    <property name="text">
-    <string>DSP E&amp;ngine...</string>
+    <string>DSP &amp;Binary</string>
    </property>
   </action>
   <action name="action_Enable">

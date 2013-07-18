@@ -69,7 +69,7 @@ void MainWindow::programDialog( bool show )
 
 void MainWindow::dspEngineDialog( bool show )
 {
-    ModuleDialog dlg( "DSP Engine", this );
+    ModuleDialog dlg( "DSP Binary", this );
     if( !show || dlg.exec() == QDialog::Accepted )
     {
 	emit dspPathAvailable( dlg.path() );
