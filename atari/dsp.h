@@ -15,6 +15,8 @@ typedef struct
 } DspWrapperInfo;
 
 void setDspWrapper( const DspWrapperInfo* pDspWrapperInfo );
+#else
+int loadDspBinary( const char* sPath );
 #endif
 
 #endif // DSP_H
