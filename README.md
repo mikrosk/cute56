@@ -9,12 +9,13 @@ cute56 is a Qt based simulator &amp; debugger for DSP 56001 development. Its tar
 Prerequisites
 -------------
 
-I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile this stuff by yourself, nothing for pussies :) First of all, you need [asm56k] [3] by Sqward, without it you can't compile and run your dsp code. If you know a better one let me know but this one is really good, nearly 100% compatible with the good old `qdsp`. For m68k code you need either [vasm] [4] by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools] [5]. And finally (not mandatory but it will make your start with this project easier) [Qt Creator] [6] by Digia. This will provide you also all the needed tools and libraries for compilation of the main project.
+I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile this stuff by yourself, nothing for pussies :) First of all, you need [asm56k] [3] by Sqward, without it you can't compile and run your dsp code. If you know a better one let me know but this one is really good, nearly 100% compatible with the good old `qdsp`. For m68k code you need either [vasm] [4] by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools] [5]. Another option is to use Frank's great [vbcc] [7] but I'm more used to `gcc`. And finally (not mandatory but it will make your start with this project easier) [Qt Creator] [6] by Digia. This will provide you also all the needed tools and libraries for compilation of the main project.
 
   [3]: https://bitbucket.org/sqward/asm56k "asm56k"
   [4]: http://sun.hasenbraten.de/vasm "vasm"
   [5]: http://vincent.riviere.free.fr/soft/m68k-atari-mint "m68k cross tools"
   [6]: http://qt-project.org/downloads "Qt Creator"
+  [7]: http://sun.hasenbraten.de/vbcc "vbcc"
 
 I've tested compilation on Arch Linux (both 32-bit and 64-bit), it should work out of the box on Windows and Mac, too. However, as it uses (for the time being) the deprecated OpenGL calls, it might not compile on your platform. To be investigated.
 
@@ -35,7 +36,7 @@ But, suppose you're a lucky user of a Linux distro and everything went smoothly.
 Native build
 ------------
 
-So you want to try it in a _real_ emulator. Open a console (oh yeah), go to the `atari-build` directory, edit the `Makefile` (if needed) and type `make`. This should produce `atari.tos` binary, which you can run in an emulator ([Hatari] [1]). `main.c` is quite a mess (a lot of `#ifdef`s for host/native build) but usually you want to put these things into a library and forget about them. I just didn't want to complicate it more (another project, dependency etc).
+So you want to try it in a _real_ emulator. Open a console (oh yeah), go to the `atari-build` directory, edit the `Makefile` (if needed) and type `make`. This should produce `atari.tos` binary, which you can run in an emulator ([Hatari] [1]). `main.c` is quite a mess (a lot of `#ifdef`s for host/native build) but usually you want to put these things into a library and forget about them. I just didn't want to complicate it more (another project, dependency etc). I guess this could be automated more (and perhaps included in the Qt Creator project) but I was lazy and in rush, blah blah.
 
 Warning
 -------
