@@ -4,6 +4,7 @@ TARGET	= atari
 TEMPLATE= lib
 
 DEFINES	+= HOST
+QMAKE_CFLAGS += -std=c99
 
 SOURCES	+= \
 	atari.c \
