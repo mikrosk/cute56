@@ -38,6 +38,43 @@ private slots:
 	void updateY();
 	void updateL();
 
+	void setRegisterX0();
+	void setRegisterX1();
+	void setRegisterY0();
+	void setRegisterY1();
+	void setRegisterA0();
+	void setRegisterA1();
+	void setRegisterA2();
+	void setRegisterB0();
+	void setRegisterB1();
+	void setRegisterB2();
+	void setRegisterR0();
+	void setRegisterR1();
+	void setRegisterR2();
+	void setRegisterR3();
+	void setRegisterR4();
+	void setRegisterR5();
+	void setRegisterR6();
+	void setRegisterR7();
+	void setRegisterN0();
+	void setRegisterN1();
+	void setRegisterN2();
+	void setRegisterN3();
+	void setRegisterN4();
+	void setRegisterN5();
+	void setRegisterN6();
+	void setRegisterN7();
+	void setRegisterM0();
+	void setRegisterM1();
+	void setRegisterM2();
+	void setRegisterM3();
+	void setRegisterM4();
+	void setRegisterM5();
+	void setRegisterM6();
+	void setRegisterM7();
+	void setRegisterSR();
+	void setRegisterPC();
+
 private:
 	QTableWidgetItem* itemAtPc( Uint16 pc ) const;
 

@@ -20,6 +20,43 @@ Debugger::Debugger(QWidget *parent)
 	connect( ui->radioButtonX, SIGNAL(clicked()), this, SLOT(updateX()) );
 	connect( ui->radioButtonY, SIGNAL(clicked()), this, SLOT(updateY()) );
 	connect( ui->radioButtonL, SIGNAL(clicked()), this, SLOT(updateL()) );
+
+	connect( ui->lineEditX0, SIGNAL(editingFinished()), this, SLOT(setRegisterX0()) );
+	connect( ui->lineEditX1, SIGNAL(editingFinished()), this, SLOT(setRegisterX1()) );
+	connect( ui->lineEditY0, SIGNAL(editingFinished()), this, SLOT(setRegisterY0()) );
+	connect( ui->lineEditY1, SIGNAL(editingFinished()), this, SLOT(setRegisterY1()) );
+	connect( ui->lineEditA0, SIGNAL(editingFinished()), this, SLOT(setRegisterA0()) );
+	connect( ui->lineEditA1, SIGNAL(editingFinished()), this, SLOT(setRegisterA1()) );
+	connect( ui->lineEditA2, SIGNAL(editingFinished()), this, SLOT(setRegisterA2()) );
+	connect( ui->lineEditB0, SIGNAL(editingFinished()), this, SLOT(setRegisterB0()) );
+	connect( ui->lineEditB1, SIGNAL(editingFinished()), this, SLOT(setRegisterB1()) );
+	connect( ui->lineEditB2, SIGNAL(editingFinished()), this, SLOT(setRegisterB2()) );
+	connect( ui->lineEditR0, SIGNAL(editingFinished()), this, SLOT(setRegisterR0()) );
+	connect( ui->lineEditR1, SIGNAL(editingFinished()), this, SLOT(setRegisterR1()) );
+	connect( ui->lineEditR2, SIGNAL(editingFinished()), this, SLOT(setRegisterR2()) );
+	connect( ui->lineEditR3, SIGNAL(editingFinished()), this, SLOT(setRegisterR3()) );
+	connect( ui->lineEditR4, SIGNAL(editingFinished()), this, SLOT(setRegisterR4()) );
+	connect( ui->lineEditR5, SIGNAL(editingFinished()), this, SLOT(setRegisterR5()) );
+	connect( ui->lineEditR6, SIGNAL(editingFinished()), this, SLOT(setRegisterR6()) );
+	connect( ui->lineEditR7, SIGNAL(editingFinished()), this, SLOT(setRegisterR7()) );
+	connect( ui->lineEditN0, SIGNAL(editingFinished()), this, SLOT(setRegisterN0()) );
+	connect( ui->lineEditN1, SIGNAL(editingFinished()), this, SLOT(setRegisterN1()) );
+	connect( ui->lineEditN2, SIGNAL(editingFinished()), this, SLOT(setRegisterN2()) );
+	connect( ui->lineEditN3, SIGNAL(editingFinished()), this, SLOT(setRegisterN3()) );
+	connect( ui->lineEditN4, SIGNAL(editingFinished()), this, SLOT(setRegisterN4()) );
+	connect( ui->lineEditN5, SIGNAL(editingFinished()), this, SLOT(setRegisterN5()) );
+	connect( ui->lineEditN6, SIGNAL(editingFinished()), this, SLOT(setRegisterN6()) );
+	connect( ui->lineEditN7, SIGNAL(editingFinished()), this, SLOT(setRegisterN7()) );
+	connect( ui->lineEditM0, SIGNAL(editingFinished()), this, SLOT(setRegisterM0()) );
+	connect( ui->lineEditM1, SIGNAL(editingFinished()), this, SLOT(setRegisterM1()) );
+	connect( ui->lineEditM2, SIGNAL(editingFinished()), this, SLOT(setRegisterM2()) );
+	connect( ui->lineEditM3, SIGNAL(editingFinished()), this, SLOT(setRegisterM3()) );
+	connect( ui->lineEditM4, SIGNAL(editingFinished()), this, SLOT(setRegisterM4()) );
+	connect( ui->lineEditM5, SIGNAL(editingFinished()), this, SLOT(setRegisterM5()) );
+	connect( ui->lineEditM6, SIGNAL(editingFinished()), this, SLOT(setRegisterM6()) );
+	connect( ui->lineEditM7, SIGNAL(editingFinished()), this, SLOT(setRegisterM7()) );
+	connect( ui->lineEditSR, SIGNAL(editingFinished()), this, SLOT(setRegisterSR()) );
+	connect( ui->lineEditPC, SIGNAL(editingFinished()), this, SLOT(setRegisterPC()) );
 }
 
 Debugger::~Debugger()
@@ -397,4 +434,55 @@ QTableWidgetItem* Debugger::itemAtPc( Uint16 pc ) const
 	}
 
 	return 0;
+}
+
+#define DEFINE_SET_REGISTER( reg )		\
+	void Debugger::setRegister##reg()	\
+	{					\
+		m_pCurrentDspCore->registers[DSP_REG_##reg] = ui->lineEdit##reg->text().toInt( 0, 16 ); \
+	}
+
+DEFINE_SET_REGISTER( X0 )
+DEFINE_SET_REGISTER( X1 )
+DEFINE_SET_REGISTER( Y0 )
+DEFINE_SET_REGISTER( Y1 )
+DEFINE_SET_REGISTER( A0 )
+DEFINE_SET_REGISTER( A1 )
+DEFINE_SET_REGISTER( A2 )
+DEFINE_SET_REGISTER( B0 )
+DEFINE_SET_REGISTER( B1 )
+DEFINE_SET_REGISTER( B2 )
+DEFINE_SET_REGISTER( R0 )
+DEFINE_SET_REGISTER( R1 )
+DEFINE_SET_REGISTER( R2 )
+DEFINE_SET_REGISTER( R3 )
+DEFINE_SET_REGISTER( R4 )
+DEFINE_SET_REGISTER( R5 )
+DEFINE_SET_REGISTER( R6 )
+DEFINE_SET_REGISTER( R7 )
+DEFINE_SET_REGISTER( N0 )
+DEFINE_SET_REGISTER( N1 )
+DEFINE_SET_REGISTER( N2 )
+DEFINE_SET_REGISTER( N3 )
+DEFINE_SET_REGISTER( N4 )
+DEFINE_SET_REGISTER( N5 )
+DEFINE_SET_REGISTER( N6 )
+DEFINE_SET_REGISTER( N7 )
+DEFINE_SET_REGISTER( M0 )
+DEFINE_SET_REGISTER( M1 )
+DEFINE_SET_REGISTER( M2 )
+DEFINE_SET_REGISTER( M3 )
+DEFINE_SET_REGISTER( M4 )
+DEFINE_SET_REGISTER( M5 )
+DEFINE_SET_REGISTER( M6 )
+DEFINE_SET_REGISTER( M7 )
+DEFINE_SET_REGISTER( SR )
+
+void Debugger::setRegisterPC()
+{
+	m_pCurrentDspCore->pc = ui->lineEditPC->text().toInt( 0, 16 );
+
+	QTableWidgetItem* pItemPc = itemAtPc( m_pCurrentDspCore->pc );
+	ui->tableWidgetCode->scrollToItem( pItemPc, QTableWidget::PositionAtTop );
+	ui->tableWidgetCode->setCurrentItem( pItemPc );
 }

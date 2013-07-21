@@ -11,6 +11,7 @@ whost		MACRO
 		ORG	P:$0000
 		jmp	>start
 
+		ORG	P:$0040
 start:		rhost	x0
 
 		tfr	x0,a	#1,x0
