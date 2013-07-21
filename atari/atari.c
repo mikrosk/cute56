@@ -61,7 +61,7 @@ int main( int argc, char* argv[] )
 	// align on 16 bytes, beware you can't use (M)free anymore
 	intptr_t ptr = (intptr_t)screen.pixels.pHc;
 	ptr = ( ptr + 15 ) & ~15;
-	screen.pixels.pHc = (void*)ptr;
+    screen.pixels.pHc = (HighColor*)ptr;
 
 #ifndef HOST
 	asm_screen_setvram( screen.pixels.pHc );

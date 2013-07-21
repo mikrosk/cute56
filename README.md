@@ -29,7 +29,7 @@ Suppose you've managed to compile and install all the prerequisites. That means 
   3. Right click on `dsplib`, choose `Build "dsplib"` (subprojects in Qt are incredibly stupid, can't track initial dependencies)
   4. The same for `display` and `atari`. You need to edit `atari.pro` and put a correct path to `asm56k` before.
   
-If you see errors about undeclared `glMatrixMode()` and friends, that's the deprecated OpenGL issue. If you see errors about `-std=c99` and friends, that's because you're using a Visual C++ compiler. To be investigated :)
+If you see errors about undeclared `glMatrixMode()` and friends, that's the deprecated OpenGL issue.
 
 But, suppose you're a lucky user of a Linux distro and everything went smoothly. Run the program (`display`). You should see a message `Failed to load Atari Library`, that's fine, we haven't loaded any yet. So go to `Modules` and choose `libatari.so` (from your build directory) as the `Program` and `calc.p56` as the `DSP Binary`. You should see strange colours on the screen. Now you can press `F12` (or `Debug` -> `Enable`) and voila! You can debug your DSP code with `F11`. After some iterations you should see how the background color of the screen automatically changes, cool, isn't it. Now if you exit the simulator and run it again, the paths are remembered and the DSP binary will load & run automatically
 
@@ -41,7 +41,7 @@ So you want to try it in a _real_ emulator. Open a console (oh yeah), go to the 
 Warning
 -------
 
-Most of the code (everywhere) is just mess, mess, mess. Many things needs to be yet implemented (like writing to registers / memory, labels, different stepping, ...) and many fixed (thread synchronization, crashes on stopping / reloading etc). Feel free to send me a patch but we all known nobody will bother :)
+Most of the code (everywhere) is just mess, mess, mess. Many things needs to be yet implemented (like writing to memory, labels, different stepping, ...) and many fixed (thread synchronization, crashes on stopping / reloading etc). Feel free to send me a patch but we all known nobody will bother :)
 
 Contact and license
 -------------------
