@@ -41,7 +41,7 @@ So you want to try it in a _real_ emulator. Open a console (oh yeah), go to the 
 Warning
 -------
 
-Most of the code (everywhere) is just mess, mess, mess. Many things needs to be yet implemented (like writing to registers / memory, labels, different stepping, ...) and many fixed (thread synchronization, crashes on stopping / reloading etc). Feel free to send me a patch but we all known nobody will bother :)
+Most of the code (everywhere) is just mess, mess, mess. Many things needs to be yet implemented (like writing to memory, labels, different stepping, ...) and many fixed (thread synchronization, crashes on stopping / reloading etc). Feel free to send me a patch but we all known nobody will bother :)
 
 Contact and license
 -------------------
