@@ -1,9 +1,12 @@
-QT	-= core gui
+QT	-= gui
 
 TARGET	= atari
 TEMPLATE= lib
 
-DEFINES	+= HOST
+DEFINES	+= \
+    HOST \
+    ATARI_LIBRARY
+
 win32:QMAKE_CFLAGS += /TP
 else:QMAKE_CFLAGS += -std=c99
 
@@ -16,7 +19,8 @@ HEADERS += \
 	dsp.h \
 	graphics.h \
 	atari_internal.h \
-	dsp_internal.h
+	dsp_internal.h \
+    atari_global.h
 
 DSP_SOURCES = \
 	calc.asm

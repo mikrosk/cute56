@@ -45,7 +45,7 @@ MainWindow::MainWindow( QWidget* parent )
     // misc stuff
     connect( ui->actionProgram, SIGNAL(triggered()), this, SLOT(programDialog()) );
     connect( ui->actionDSP_Engine, SIGNAL(triggered()), this, SLOT(dspEngineDialog()) );
-    connect( ui->action_Enable, SIGNAL(triggered(bool)), &m_dspDebugger, SLOT(setShown(bool)) );
+    connect( ui->action_Enable, SIGNAL(triggered(bool)), &m_dspDebugger, SLOT(setVisible(bool)) );
     connect( &m_dspDebugger, SIGNAL(closed()), ui->action_Enable, SLOT(trigger()) );
 
     // load defaults

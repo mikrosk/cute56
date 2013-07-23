@@ -6,19 +6,20 @@
 #include "atari.h"
 #include "dsp.h"
 #include "graphics.h"
+#include "atari_global.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-// these signatures are hardcoded in atarithread.cpp, don't change!
+// these signatures are hardcoded in atarithread.cpp, musn't change!
 #ifdef HOST
-int32_t	Main( const DspWrapperInfo* pDspWrapperInfo );
+ATARISHARED_EXPORT int32_t	Main( const DspWrapperInfo* pDspWrapperInfo );
 #endif
-void	SysExit( int32_t code );
-void	TimerDCallback( void );
-void	TimerVblCallback( void );
-Bitmap* ScreenGetPhysical( void );
+ATARISHARED_EXPORT void     SysExit( int32_t code );
+ATARISHARED_EXPORT void     TimerDCallback( void );
+ATARISHARED_EXPORT void     TimerVblCallback( void );
+ATARISHARED_EXPORT Bitmap*  ScreenGetPhysical( void );
 #ifdef __cplusplus
 }
 #endif

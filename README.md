@@ -9,13 +9,14 @@ cute56 is a Qt based simulator &amp; debugger for DSP 56001 development. Its tar
 Prerequisites
 -------------
 
-I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile this stuff by yourself, nothing for pussies :) First of all, you need [asm56k] [3] by Sqward, without it you can't compile and run your dsp code. If you know a better one let me know but this one is really good, nearly 100% compatible with the good old `qdsp`. For m68k code you need either [vasm] [4] by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools] [5]. Another option is to use Frank's great [vbcc] [7] but I'm more used to `gcc`. And finally (not mandatory but it will make your start with this project easier) [Qt Creator] [6] by Digia. This will provide you also all the needed tools and libraries for compilation of the main project.
+I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile this stuff by yourself, nothing for pussies :) First of all, you need [asm56k] [3] by Sqward, without it you can't compile and run your dsp code. If you know a better one let me know but this one is really good, nearly 100% compatible with the good old `qdsp`. For m68k code you need either [vasm] [4] by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools] [5]. Another option is to use Frank's great [vbcc] [7] but I'm more used to `gcc`. And finally (not mandatory but it will make your start with this project easier) [Qt Creator] [6] by Digia. This will provide you also all the needed tools and libraries for compilation of the main project. You're looking for `Qt X.Y.Z for ...` archive. __Windows users__, please note that you need to download the `OpenGL` version of Qt libraries, as the default one is using [ANGLE] [8], lacking some (deprecated yet simple) functions cute56 is using.
 
   [3]: https://bitbucket.org/sqward/asm56k "asm56k"
   [4]: http://sun.hasenbraten.de/vasm "vasm"
   [5]: http://vincent.riviere.free.fr/soft/m68k-atari-mint "m68k cross tools"
   [6]: http://qt-project.org/downloads "Qt Creator"
   [7]: http://sun.hasenbraten.de/vbcc "vbcc"
+  [8]: https://code.google.com/p/angleproject "ANGLE"
 
 I've tested compilation on Arch Linux (both 32-bit and 64-bit), it should work out of the box on Windows and Mac, too. However, as it uses (for the time being) the deprecated OpenGL calls, it might not compile on your platform. To be investigated.
 
