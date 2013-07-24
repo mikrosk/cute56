@@ -34,7 +34,7 @@ dspp56.CONFIG	= no_link target_predeps
 
 dsplod.output	= ${QMAKE_FILE_BASE}.lod
 win32:dsplod.commands	= c:\MinGW\msys\1.0\home\MiroslavK\asm56k\asm56k.exe -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
-else:dspp56.commands	= ~/bin/asm56k -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
+else:dsplod.commands	= ~/bin/asm56k -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
 dsplod.input	= DSP_SOURCES
 dsplod.CONFIG	= no_link target_predeps
 
