@@ -23,22 +23,23 @@
 #define DSP_DISASM_H
 
 #include "dsp_core.h"
+#include "dsp_global.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Functions */
-void dsp56k_disasm_init(dsp_core_t *my_dsp_core);
-Uint16 dsp56k_disasm(void);
-Uint16 dsp56k_disasm_addr(Uint16 addr, char* str);
+void DSPSHARED_EXPORT dsp56k_disasm_init(dsp_core_t *my_dsp_core);
+Uint16 DSPSHARED_EXPORT dsp56k_disasm(void);
+Uint16 DSPSHARED_EXPORT dsp56k_disasm_addr(Uint16 addr, char* str);
 
 /* Registers change */
-void dsp56k_disasm_reg_read(void);
-void dsp56k_disasm_reg_compare(void);
+void DSPSHARED_EXPORT dsp56k_disasm_reg_read(void);
+void DSPSHARED_EXPORT dsp56k_disasm_reg_compare(void);
 
 /* Function to mark register as changed */
-void dsp56k_disasm_force_reg_changed(int num_dsp_reg);
+void DSPSHARED_EXPORT dsp56k_disasm_force_reg_changed(int num_dsp_reg);
 
 #ifdef __cplusplus
 }

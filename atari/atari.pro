@@ -1,10 +1,14 @@
-QT	-= core gui
+QT	-= gui
 
 TARGET	= atari
 TEMPLATE= lib
 
-DEFINES	+= HOST
-QMAKE_CFLAGS += -std=c99
+DEFINES	+= \
+    HOST \
+    ATARI_LIBRARY
+
+win32:QMAKE_CFLAGS += /TP
+else:QMAKE_CFLAGS += -std=c99
 
 SOURCES	+= \
 	atari.c \
@@ -15,19 +19,22 @@ HEADERS += \
 	dsp.h \
 	graphics.h \
 	atari_internal.h \
-	dsp_internal.h
+	dsp_internal.h \
+    atari_global.h
 
 DSP_SOURCES = \
 	calc.asm
 
 # 'asm56k' points to https://bitbucket.org/sqward/asm56k build
 dspp56.output	= ${QMAKE_FILE_BASE}.p56
-dspp56.commands	= ~/bin/asm56k -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
+win32:dspp56.commands	= c:\MinGW\msys\1.0\home\MiroslavK\asm56k\asm56k.exe -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
+else:dspp56.commands	= ~/bin/asm56k -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
 dspp56.input	= DSP_SOURCES
 dspp56.CONFIG	= no_link target_predeps
 
 dsplod.output	= ${QMAKE_FILE_BASE}.lod
-dsplod.commands	= ~/bin/asm56k -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
+win32:dsplod.commands	= c:\MinGW\msys\1.0\home\MiroslavK\asm56k\asm56k.exe -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
+else:dspp56.commands	= ~/bin/asm56k -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
 dsplod.input	= DSP_SOURCES
 dsplod.CONFIG	= no_link target_predeps
 

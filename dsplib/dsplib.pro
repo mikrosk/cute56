@@ -1,11 +1,18 @@
 TEMPLATE= lib
 TARGET	= dsp
+QT      -= gui
+
+win32:QMAKE_CFLAGS += /D_CRT_SECURE_NO_WARNINGS
+
+DEFINES += \
+    DSP_LIBRARY
 
 HEADERS += \
     types.h \
     dsp_disasm.h \
     dsp_cpu.h \
-    dsp_core.h
+    dsp_core.h \
+    dsp_global.h
 
 SOURCES += \
     dsp_disasm.c \
