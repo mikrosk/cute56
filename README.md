@@ -18,7 +18,7 @@ I'll describe my scenario, if you don't want to mess with m68k at all, you can s
   [7]: http://sun.hasenbraten.de/vbcc "vbcc"
   [8]: https://code.google.com/p/angleproject "ANGLE"
 
-I've tested compilation on Arch Linux (both 32-bit and 64-bit), it should work out of the box on Windows and Mac, too. However, as it uses (for the time being) the deprecated OpenGL calls, it might not compile on your platform. To be investigated.
+I've tested compilation on Arch Linux (both 32-bit and 64-bit) and Windows 7/64-bit, it should work out of the box.
 
 First try
 ---------
@@ -30,8 +30,6 @@ Suppose you've managed to compile and install all the prerequisites. That means 
   3. Right click on `dsplib`, choose `Build "dsplib"` (subprojects in Qt are incredibly stupid, can't track initial dependencies)
   4. The same for `display` and `atari`. You need to edit `atari.pro` and put a correct path to `asm56k` before.
   
-If you see errors about undeclared `glMatrixMode()` and friends, that's the deprecated OpenGL issue.
-
 But, suppose you're a lucky user of a Linux distro and everything went smoothly. Run the program (`display`). You should see a message `Failed to load Atari Library`, that's fine, we haven't loaded any yet. So go to `Modules` and choose `libatari.so` (from your build directory) as the `Program` and `calc.p56` as the `DSP Binary`. You should see strange colours on the screen. Now you can press `F12` (or `Debug` -> `Enable`) and voila! You can debug your DSP code with `F11`. After some iterations you should see how the background color of the screen automatically changes, cool, isn't it. Now if you exit the simulator and run it again, the paths are remembered and the DSP binary will load & run automatically
 
 Native build
