@@ -29,8 +29,9 @@ Suppose you've managed to compile and install all the prerequisites. That means 
   2. You should see one project and three subprojects: `atari`, `display` and `dsplib`. In the bottom left corner you can choose `Debug` and `Release` configurations, let's stick with `Debug` for now.
   3. Right click on `dsplib`, choose `Build "dsplib"` (subprojects in Qt are incredibly stupid, can't track initial dependencies)
   4. The same for `display` and `atari`. You need to edit `atari.pro` and put a correct path to `asm56k` before.
+  5. Run the program (`display`).
   
-But, suppose you're a lucky user of a Linux distro and everything went smoothly. Run the program (`display`). You should see a message `Failed to load Atari Library`, that's fine, we haven't loaded any yet. So go to `Modules` and choose `libatari.so` (from your build directory) as the `Program` and `calc.p56` as the `DSP Binary`. You should see strange colours on the screen. Now you can press `F12` (or `Debug` -> `Enable`) and voila! You can debug your DSP code with `F11`. After some iterations you should see how the background color of the screen automatically changes, cool, isn't it. Now if you exit the simulator and run it again, the paths are remembered and the DSP binary will load & run automatically
+You should see a message `Failed to load Atari Library`, that's fine, we haven't loaded any yet. So go to `Modules` and choose (from your build directory) `calc.p56` as the `DSP Binary` and `libatari.{so,dll}` as the `Program` (in this order). You should see strange colours on the screen. Now you can press `F12` (or `Debug` -> `Enable`) and voila! You can debug your DSP code with `F11`. After some iterations you should see how the background color of the screen automatically changes, cool, isn't it. Now if you exit the simulator and run it again, the paths are remembered and the DSP binary will load & run automatically
 
 Native build
 ------------
