@@ -33,6 +33,19 @@ Suppose you've managed to compile and install all the prerequisites. That means 
   
 You should see a message `Failed to load Atari Library`, that's fine, we haven't loaded any yet. So go to `Modules` and choose (from your build directory) `calc.p56` as the `DSP Binary` and `libatari.{so,dll}` as the `Program` (in this order). You should see strange colours on the screen. Now you can press `F12` (or `Debug` -> `Enable`) and voila! You can debug your DSP code with `F11`. After some iterations you should see how the background color of the screen automatically changes, cool, isn't it. Now if you exit the simulator and run it again, the paths are remembered and the DSP binary will load & run automatically
 
+Troubleshooting
+---------------
+Right now, everything works for me but be aware of following. If using __Windows__, `asm56k` should be compiled against [MinGW] [1] and not [Cygwin] [2] (because of dependencies, Unix path handling etc). Not saying it's not possible but it requires to be an advance user. Second thing is a crash due to OpenGL's `glRasterPos()` handling. If you are confident everything is installed and it should work and you are still getting crashes, try this: change `glRasterPos2i( 0, 2 * pScreen->height );` to `glRasterPos2f( 0, 2 * pScreen->height - 0.1 );` in `glwidget.cpp`. If still getting crashes, you can try `glRasterPos2f( 0, 2 * pScreen->height - 1 );` as the last resort. Look [here] [3] for more details.
+
+  [1]: http://www.mingw.org "MinGW"
+  [2]: http://www.cygwin.com "Cygwin"
+  [3]: http://www.graphicsgroups.com/6-opengl/7a536eebc180993d.htm "Graphics Groups"
+
+Visual C++
+----------
+
+Trolltech/Nokia/Digia has developed a nice plugin for Visual Studio which allows you to import `qmake`'s project file and create a solution file out of it and therefore using Visual Studio's debugger directly (of course, you can always attach the debugger to your process from outside but it's less convenient). You can download it for free from the same location as the other Qt stuff. It should work out of the box, with exception of: flags (right click on `atari` -> `Properties` -> `Configuration Properties` -> `C/C++` -> `Advanced` -> `Compile as` and set to `Compile as C++ code /TP`), `dsp.lib` linked to `display` (`display` -> `Properties` -> `Configuration Properties` -> `Linker` -> `Input` -> `Additional Dependencies`) and, should you use/want it, x64 build (`BUILD` -> `Configuration Manager` -> `Active Solution Platform` -> `New` -> `x64`).
+  
 Native build
 ------------
 

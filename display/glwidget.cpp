@@ -30,8 +30,8 @@ void GLWidget::paintGL()
 	const Bitmap* pScreen = AtariThread::screenBitmap();
 	if( pScreen != 0 )
 	{
-		//glRasterPos2f( 0, SCREEN_HEIGHT - 0.1 );
-		glRasterPos2i( 0, 2 * pScreen->height );
+        //glRasterPos2f( 0, 2 * pScreen->height - 0.1 );
+        glRasterPos2i( 0, 2 * pScreen->height );
 		glPixelZoom( 2, -2 );
 		glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 		glDrawPixels( pScreen->width, pScreen->height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, pScreen->pixels.pUnknown );
