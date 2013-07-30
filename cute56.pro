@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
 	atari \
 	display \
-	dsplib
+	dsplib \
+	lod2p56
