@@ -37,7 +37,7 @@ You should see a message `Failed to load Atari Library`, that's fine, we haven't
 
 Troubleshooting
 ---------------
-Right now, everything works for me but be aware of following. If using __Windows__, `asm56k` should be compiled against [MinGW] [1] and not [Cygwin] [2] (because of dependencies, Unix path handling etc). Not saying it's not possible but it requires to be an advance user. Second thing is a crash due to OpenGL's `glRasterPos()` handling. If you are confident everything is installed and it should work and you are still getting crashes, try this: change `glRasterPos2i( 0, 2 * pScreen->height );` to `glRasterPos2f( 0, 2 * pScreen->height - 0.1 );` in `glwidget.cpp`. If still getting crashes, you can try `glRasterPos2f( 0, 2 * pScreen->height - 1 );` as the last resort. Look [here] [3] for more details.
+Right now, everything works for me but be aware of following. If using __Windows__, `asm56k` should be compiled against [MinGW] [10] and not [Cygwin] [11] (because of dependencies, Unix path handling etc). Not saying it's not possible but it requires to be an advance user. Second thing is a crash due to OpenGL's `glRasterPos()` handling. If you are confident everything is installed and it should work and you are still getting crashes, try this: change `glRasterPos2i( 0, 2 * pScreen->height );` to `glRasterPos2f( 0, 2 * pScreen->height - 0.1 );` in `glwidget.cpp`. If still getting crashes, you can try `glRasterPos2f( 0, 2 * pScreen->height - 1 );` as the last resort. Look [here] [12] for more details.
 
   [10]: http://www.mingw.org "MinGW"
   [11]: http://www.cygwin.com "Cygwin"
