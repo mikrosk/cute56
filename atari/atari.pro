@@ -25,20 +25,24 @@ HEADERS += \
 DSP_SOURCES = \
 	calc.asm
 
-# 'asm56k' points to https://bitbucket.org/sqward/asm56k build
-dspp56.output	= ${QMAKE_FILE_BASE}.p56
-win32:dspp56.commands	= c:\MinGW\msys\1.0\home\MiroslavK\asm56k\asm56k.exe -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
-else:dspp56.commands	= ~/bin/asm56k -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
-dspp56.input	= DSP_SOURCES
-dspp56.CONFIG	= no_link target_predeps
+win32 {
+	ASM56000 = C:\Program Files (x86)\Motorola\DSP\bin\asm56000.exe
+	LOD2P56	 = ~/bin/lod2p56.exe
+	CLDLOD	 = C:\Program Files (x86)\Motorola\DSP\bin\cldlod.exe
+}
+else {
+	ASM56000 = wine ~/bin-dos/asm56000.exe
+	CLDLOD	 = wine ~/bin-dos/cldlod.exe
+	LOD2P56	 = ~/bin/lod2p56
+}
 
-dsplod.output	= ${QMAKE_FILE_BASE}.lod
-win32:dsplod.commands	= c:\MinGW\msys\1.0\home\MiroslavK\asm56k\asm56k.exe -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
-else:dsplod.commands	= ~/bin/asm56k -p ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN} -I${QMAKE_FILE_IN_PATH}
-dsplod.input	= DSP_SOURCES
-dsplod.CONFIG	= no_link target_predeps
+asm56000.output	= ${QMAKE_FILE_BASE}.p56
+asm56000.commands = $${ASM56000} -a -l -b -i${QMAKE_FILE_IN_PATH} ${QMAKE_FILE_IN} && $${CLDLOD} ${QMAKE_FILE_BASE}.cld > ${QMAKE_FILE_BASE}.lod && $${LOD2P56} ${QMAKE_FILE_BASE}.lod
+asm56000.input	= DSP_SOURCES
+asm56000.clean	= ${QMAKE_FILE_BASE}.cld ${QMAKE_FILE_BASE}.lst ${QMAKE_FILE_BASE}.lod ${QMAKE_FILE_BASE}.p56
+asm56000.CONFIG	= no_link target_predeps
 
-QMAKE_EXTRA_COMPILERS += dspp56 dsplod
+QMAKE_EXTRA_COMPILERS += asm56000
 
 OTHER_FILES += \
     calc.asm
