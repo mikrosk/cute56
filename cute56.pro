@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-	atari \
 	display \
-	dsplib
+	dsplib \
+	demolib \
+	test
