@@ -9,7 +9,7 @@ cute56 is a Qt based simulator &amp; debugger for DSP 56001 development. Its tar
 Prerequisites
 -------------
 
-I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile this stuff by yourself, nothing for pussies :) First of all, go to the `tools` directory and install `Win56000.exe`. Non-windows users, use [Wine] [9] for this task. Alternatively, you can use [asm56k] [3] by Sqward but you need a minor tweak to calc.asm's macros (`src`/`dst` -> `\1`) and use different command line arguments. For m68k code you need either [vasm] [4] by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools] [5]. Another option is to use Frank's great [vbcc] [7] but I'm more used to `gcc`. And finally (not mandatory but it will make your start with this project easier) [Qt Creator] [6] by Digia. This will provide you also all the needed tools and libraries for compilation of the main project. You're looking for `Qt X.Y.Z for ...` archive. __Windows users__, please note that you need to download the `OpenGL` version of Qt libraries, as the default one is using [ANGLE] [8], lacking some (deprecated yet simple) functions cute56 is using.
+I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile most of this stuff by yourself, nothing for pussies :) First of all, go to the `tools` directory and install `Win56000.exe`. Non-windows users, use [Wine] [9] for this task. Alternatively, you can use [asm56k] [3] by Sqward but you need a minor tweak to calc.asm's macros (`src`/`dst` -> `\1`) and use different command line arguments. For m68k code you need either [vasm] [4] by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools] [5]. Another option is to use Frank's great [vbcc] [7] but I'm more used to `gcc`. And finally (not mandatory but it will make your start with this project easier) [Qt Creator] [6] by Digia. This will provide you also all the needed tools and libraries for compilation of the main project. You're looking for `Qt X.Y.Z for ...` archive. __Windows users__, please note that you need to download the `OpenGL` version of Qt libraries, as the default one is using [ANGLE] [8], lacking some (deprecated yet simple) functions cute56 is using.
 
   [3]: https://bitbucket.org/sqward/asm56k "asm56k"
   [4]: http://sun.hasenbraten.de/vasm "vasm"
@@ -24,14 +24,16 @@ I've tested compilation on Arch Linux (both 32-bit and 64-bit) and Windows 7/64-
 First try
 ---------
 
-Suppose you've managed to compile and install all the prerequisites. That means `Motorola Suite56` binaries and `qmake` are somewhere in your `PATH` or at least in a known location. Step by step tutorial:
+Suppose you've managed to compile and install all the prerequisites. Make sure that `PATH` contains something like `C:\Qt\Qt5.1.0\5.1.0\msvc2012_64_opengl\bin`, i.e. the Qt libraries you've just installed (it's not set by default!).
 
-  1. Go to `tools/lod2p56` and open `lod2p56.pro`. Confirm default build directories and build the release configuration. Copy the binary somewhere you can find it. Close the project.
-  1. Open cute56.pro in Qt Creator. Confirm default build directories.
-  2. You should see one project and three subprojects: `atari`, `display` and `dsplib`. In the bottom left corner you can choose `Debug` and `Release` configurations, let's stick with `Debug` for now.
-  3. Right click on `dsplib`, choose `Build "dsplib"` (subprojects in Qt are incredibly stupid, can't track initial dependencies)
-  4. The same for `display` and `atari`. You need to edit `atari.pro` and specify correct paths to `ASM56000`, `CLDLOD` and `LOD2P56`.
-  5. Run the program (`display`).
+  1. Copy `asm56000.exe` and `cldlod.exe` from `C:\Program Files (x86)\Motorola\DSP\dsp\bin` to some location _without spaces_. There's a bug in qmake which prevents running more than one command with quotes.
+  2. Go to `tools/lod2p56` and open `lod2p56.pro`. Confirm default build directories and build the release configuration. Copy the binary somewhere you can find it, preferably to the same place where you put the Motorola binaries. Close the project.
+  3. Open cute56.pro in Qt Creator. Confirm default build directories.
+  4. You should see one project and three subprojects: `atari`, `display` and `dsplib`. In the bottom left corner you can choose `Debug` and `Release` configurations, let's stick with `Debug` for now.
+  5. Edit paths in `atari.pro` for `ASM56000`, `CLDLOD` and `LOD2P56` and save.
+  6. Right click on `dsplib`, choose `Build "dsplib"` (subprojects in Qt are incredibly stupid, can't track initial dependencies)
+  7. The same for `display` and `atari`.
+  8. Run the program (`display`).
 
 You should see a message `Failed to load Atari Library`, that's fine, we haven't loaded any yet. So go to `Modules` and choose (from your build directory) `calc.p56` as the `DSP Binary` and `libatari.{so,dll}` as the `Program` (in this order). You should see strange colours on the screen. Now you can press `F12` (or `Debug` -> `Enable`) and voila! You can debug your DSP code with `F11`. After some iterations you should see how the background color of the screen automatically changes, cool, isn't it. Now if you exit the simulator and run it again, the paths are remembered and the DSP binary will load & run automatically
 
