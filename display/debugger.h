@@ -73,6 +73,7 @@ private slots:
 	void setRegisterM6();
 	void setRegisterM7();
 	void setRegisterSR();
+	void setRegisterLC();
 	void setRegisterPC();
 
 private:

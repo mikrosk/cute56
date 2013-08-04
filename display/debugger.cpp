@@ -57,6 +57,7 @@ Debugger::Debugger(QWidget *parent)
 	connect( ui->lineEditM7, SIGNAL(editingFinished()), this, SLOT(setRegisterM7()) );
 	connect( ui->lineEditSR, SIGNAL(editingFinished()), this, SLOT(setRegisterSR()) );
 	connect( ui->lineEditPC, SIGNAL(editingFinished()), this, SLOT(setRegisterPC()) );
+	connect( ui->lineEditLC, SIGNAL(editingFinished()), this, SLOT(setRegisterLC()) );
 }
 
 Debugger::~Debugger()
@@ -249,7 +250,9 @@ void Debugger::updateData( const dsp_core_t* pCore )
 		case DSP_REG_SR:
 			ui->lineEditSR->setText( str );
 			break;
-
+		case DSP_REG_LC:
+			ui->lineEditLC->setText( str );
+			break;
 		}
 	}
 
@@ -477,6 +480,7 @@ DEFINE_SET_REGISTER( M5 )
 DEFINE_SET_REGISTER( M6 )
 DEFINE_SET_REGISTER( M7 )
 DEFINE_SET_REGISTER( SR )
+DEFINE_SET_REGISTER( LC )
 
 void Debugger::setRegisterPC()
 {
