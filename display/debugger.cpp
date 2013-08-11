@@ -10,6 +10,7 @@
 Debugger::Debugger(QWidget *parent)
 	: QMainWindow( parent )
 	, ui(new Ui::Debugger)
+	, m_pItemAtPc( 0 )
 	, m_autoStepping( false )
 {
 	ui->setupUi(this);
@@ -272,9 +273,7 @@ void Debugger::updateData( const dsp_core_t* pCore )
 	str = str.rightJustified( 4, '0' ).toUpper();
 	ui->lineEditPC->setText( str );
 
-	QTableWidgetItem* pItemPc = itemAtPc( pCore->pc );
-	ui->tableWidgetCode->scrollToItem( pItemPc, QTableWidget::PositionAtTop );
-	ui->tableWidgetCode->setCurrentItem( pItemPc );
+	scrollToPc();
 
 	if( ui->radioButtonP->isChecked() )
 	{
@@ -316,34 +315,66 @@ void Debugger::closeEvent( QCloseEvent* event )
 	QMainWindow::closeEvent( event );
 }
 
+void Debugger::setLineBackgroundColor( int row, Qt::GlobalColor color )
+{
+	for( int i = 0; i < ui->tableWidgetCode->columnCount(); ++i )
+	{
+		QTableWidgetItem* pItem = ui->tableWidgetCode->item( row, i );
+		if( pItem != 0 )
+		{
+			pItem->setBackgroundColor( QColor( color ) );
+		}
+	}
+}
+
+void Debugger::scrollToPc()
+{
+	if( m_pItemAtPc != 0 )
+	{
+		quint16 pc = m_pItemAtPc->text().toInt( 0, 16 );
+		if( m_breakpoints.contains( pc ) )
+		{
+			setLineBackgroundColor( m_pItemAtPc->row(), Qt::yellow );
+		}
+		else
+		{
+			setLineBackgroundColor( m_pItemAtPc->row(), Qt::white );
+		}
+		m_pItemAtPc = 0;
+	}
+
+	for( int i = 0; i < ui->tableWidgetCode->rowCount(); ++i )
+	{
+		QTableWidgetItem* pItem = ui->tableWidgetCode->item( i, 0 );	// item is always the one with address
+		if( pItem->text().toInt( 0, 16 ) == m_pCurrentDspCore->pc )
+		{
+			m_pItemAtPc = pItem;
+		}
+	}
+
+	if( m_pItemAtPc != 0 )
+	{
+		ui->tableWidgetCode->scrollToItem( m_pItemAtPc, QTableWidget::PositionAtTop );
+		ui->tableWidgetCode->setCurrentItem( m_pItemAtPc );
+		setLineBackgroundColor( m_pItemAtPc->row(), Qt::lightGray );
+	}
+}
+
 void Debugger::setBreakpoint( int row, int col )
 {
-	QTableWidgetItem* pItem = ui->tableWidgetCode->item( row, 0 );	// we are interested in the address only
-	quint16 addr = pItem->text().toInt( 0, 16 );
+	Q_UNUSED( col );
+
+	quint16 addr = ui->tableWidgetCode->item( row, 0 )->text().toInt( 0, 16 );	// we are interested in the address only
 	if( m_breakpoints.contains( addr ) )
 	{
 		m_breakpoints.remove( addr );
-		for( int i = 0; i < ui->tableWidgetCode->columnCount(); ++i )
-		{
-			pItem = ui->tableWidgetCode->item( row, i );
-			if( pItem != 0 )
-			{
-				pItem->setBackgroundColor( QColor( Qt::white ) );
-			}
-		}
+		setLineBackgroundColor( row, Qt::white );
 
 	}
 	else
 	{
 		m_breakpoints.insert( addr );
-		for( int i = 0; i < ui->tableWidgetCode->columnCount(); ++i )
-		{
-			pItem = ui->tableWidgetCode->item( row, i );
-			if( pItem != 0 )
-			{
-				pItem->setBackgroundColor( QColor( Qt::yellow ) );
-			}
-		}
+		setLineBackgroundColor( row, Qt::yellow );
 	}
 }
 
@@ -489,20 +520,6 @@ void Debugger::updateL()
 	ui->tableWidgetMemory->setVisible( true );
 }
 
-QTableWidgetItem* Debugger::itemAtPc( Uint16 pc ) const
-{
-	for( int i = 0; i < ui->tableWidgetCode->rowCount(); ++i )
-	{
-		QTableWidgetItem* pItem = ui->tableWidgetCode->item( i, 0 );
-		if( pItem->text().toInt( 0, 16 ) == pc )
-		{
-			return pItem;
-		}
-	}
-
-	return 0;
-}
-
 #define DEFINE_SET_REGISTER( reg )		\
 	void Debugger::setRegister##reg()	\
 	{					\
@@ -550,7 +567,5 @@ void Debugger::setRegisterPC()
 {
 	m_pCurrentDspCore->pc = ui->lineEditPC->text().toInt( 0, 16 );
 
-	QTableWidgetItem* pItemPc = itemAtPc( m_pCurrentDspCore->pc );
-	ui->tableWidgetCode->scrollToItem( pItemPc, QTableWidget::PositionAtTop );
-	ui->tableWidgetCode->setCurrentItem( pItemPc );
+	scrollToPc();
 }

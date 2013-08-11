@@ -989,7 +989,7 @@
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="selectionMode">
-          <enum>QAbstractItemView::SingleSelection</enum>
+          <enum>QAbstractItemView::NoSelection</enum>
          </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
@@ -1053,19 +1053,20 @@
      <x>0</x>
      <y>0</y>
      <width>1053</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDebug">
     <property name="title">
      <string>Debug</string>
     </property>
+    <addaction name="actionContinue"/>
+    <addaction name="separator"/>
     <addaction name="actionStep_Into"/>
     <addaction name="actionStep_Over"/>
     <addaction name="actionStep_Skip"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
-    <addaction name="actionContinue"/>
    </widget>
    <addaction name="menuDebug"/>
   </widget>

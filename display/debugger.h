@@ -80,10 +80,12 @@ private slots:
 	void setRegisterPC();
 
 private:
-	QTableWidgetItem* itemAtPc( Uint16 pc ) const;
+	void setLineBackgroundColor(int row , Qt::GlobalColor color );
+	void scrollToPc();
 
 	Ui::Debugger *ui;
 
+	QTableWidgetItem* m_pItemAtPc;
 	dsp_core_t*	m_pCurrentDspCore;
 	QSet<quint16>	m_breakpoints;
 	bool		m_autoStepping;
