@@ -26,11 +26,10 @@ First try
 
 Suppose you've managed to compile and install all the prerequisites. Make sure that `PATH` contains something like `C:\Qt\Qt5.1.0\5.1.0\msvc2012_64_opengl\bin`, i.e. the Qt libraries you've just installed (it's not set by default!).
 
-  1. Copy `asm56000.exe` and `cldlod.exe` from `C:\Program Files (x86)\Motorola\DSP\dsp\bin` to some location _without spaces_. There's a bug in qmake which prevents running more than one command with quotes.
-  2. Go to `tools/lod2p56` and open `lod2p56.pro`. Confirm default build directories and build the release configuration. Copy the binary somewhere you can find it, preferably to the same place where you put the Motorola binaries. Close the project.
+  2. Go to `tools/lod2p56` and open `lod2p56.pro`. Confirm default build directories and build the release configuration. Copy the output .exe somewhere you can find it. Close the project.
   3. Open cute56.pro in Qt Creator. Confirm default build directories.
   4. You should see one project and three subprojects: `atari`, `display` and `dsplib`. In the bottom left corner you can choose `Debug` and `Release` configurations, let's stick with `Debug` for now.
-  5. Edit paths in `atari.pro` for `ASM56000`, `CLDLOD` and `LOD2P56` and save.
+  5. Edit paths in `atari.pro` for `ASM56000`, `CLDLOD` (if needed) and `LOD2P56` (this one you definitely need to change) and save.
   6. Right click on `dsplib`, choose `Build "dsplib"` (subprojects in Qt are incredibly stupid, can't track initial dependencies)
   7. The same for `display` and `atari`.
   8. Run the program (`display`).
