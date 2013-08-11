@@ -1065,6 +1065,7 @@
     <addaction name="actionStep_Skip"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
+    <addaction name="actionContinue"/>
    </widget>
    <addaction name="menuDebug"/>
   </widget>
@@ -1099,6 +1100,14 @@
    </property>
    <property name="shortcut">
     <string>F12</string>
+   </property>
+  </action>
+  <action name="actionContinue">
+   <property name="text">
+    <string>Continue</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>

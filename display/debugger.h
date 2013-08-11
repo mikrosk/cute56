@@ -2,6 +2,7 @@
 #define DEBUGGER_H
 
 #include <QMainWindow>
+#include <QSet>
 
 #include "dsp_core.h"
 
@@ -33,6 +34,8 @@ protected:
 	void closeEvent( QCloseEvent* event );
 
 private slots:
+	void setBreakpoint( int row, int col );
+	void setupExecution();
 	void updateP();
 	void updateX();
 	void updateY();
@@ -81,7 +84,9 @@ private:
 
 	Ui::Debugger *ui;
 
-	dsp_core_t* m_pCurrentDspCore;
+	dsp_core_t*	m_pCurrentDspCore;
+	QSet<quint16>	m_breakpoints;
+	bool		m_autoStepping;
 };
 
 #endif // DEBUGGER_H

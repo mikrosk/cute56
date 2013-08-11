@@ -2,6 +2,7 @@
 #include "ui_debugger.h"
 
 #include <QTableWidgetItem>
+#include <QColor>
 
 #include "dsp_cpu.h"
 #include "dsp_disasm.h"
@@ -9,12 +10,16 @@
 Debugger::Debugger(QWidget *parent)
 	: QMainWindow( parent )
 	, ui(new Ui::Debugger)
+	, m_autoStepping( false )
 {
 	ui->setupUi(this);
+
+	connect( ui->tableWidgetCode, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(setBreakpoint(int, int)) );
 
 	connect( ui->actionStep_Into, SIGNAL(triggered()), this, SIGNAL(stepInto()) );
 	connect( ui->actionStep_Over, SIGNAL(triggered()), this, SIGNAL(stepOver()) );
 	connect( ui->actionStep_Skip, SIGNAL(triggered()), this, SIGNAL(stepSkip()) );
+	connect( ui->actionContinue, SIGNAL(triggered()), this, SLOT(setupExecution()) );
 
 	connect( ui->radioButtonP, SIGNAL(clicked()), this, SLOT(updateP()) );
 	connect( ui->radioButtonX, SIGNAL(clicked()), this, SLOT(updateX()) );
@@ -88,6 +93,11 @@ void Debugger::initData( dsp_core_t* pCore )
 		{
 			ui->tableWidgetCode->setItem( row, 2, new QTableWidgetItem( tokens.takeFirst().rightJustified( 6, '0' ).toUpper() ) );
 		}
+		else
+		{
+			// create an empty cell to make breakpoints look good
+			ui->tableWidgetCode->setItem( row, 2, new QTableWidgetItem() );
+		}
 		for( int col = 3; !tokens.isEmpty(); ++col )
 		{
 			bool isX = tokens.first().contains( "x:" );
@@ -96,6 +106,8 @@ void Debugger::initData( dsp_core_t* pCore )
 			if( ( col == 4 && ( isX || isY ) )
 			    || ( col == 5 && isY ) )
 			{
+				// create an empty cell to make breakpoints look good
+				ui->tableWidgetCode->setItem( row, col, new QTableWidgetItem() );
 				continue;
 			}
 
@@ -280,13 +292,65 @@ void Debugger::updateData( const dsp_core_t* pCore )
 	{
 		updateL();
 	}
+
+	// if waiting for another breakpoint
+	if( m_autoStepping )
+	{
+		if( !m_breakpoints.contains( m_pCurrentDspCore->pc ) )
+		{
+			emit stepInto();
+		}
+		else
+		{
+			m_autoStepping = false;
+		}
+	}
 }
 
 void Debugger::closeEvent( QCloseEvent* event )
 {
+	m_autoStepping = false;
+
 	emit closed();
 
 	QMainWindow::closeEvent( event );
+}
+
+void Debugger::setBreakpoint( int row, int col )
+{
+	QTableWidgetItem* pItem = ui->tableWidgetCode->item( row, 0 );	// we are interested in the address only
+	quint16 addr = pItem->text().toInt( 0, 16 );
+	if( m_breakpoints.contains( addr ) )
+	{
+		m_breakpoints.remove( addr );
+		for( int i = 0; i < ui->tableWidgetCode->columnCount(); ++i )
+		{
+			pItem = ui->tableWidgetCode->item( row, i );
+			if( pItem != 0 )
+			{
+				pItem->setBackgroundColor( QColor( Qt::white ) );
+			}
+		}
+
+	}
+	else
+	{
+		m_breakpoints.insert( addr );
+		for( int i = 0; i < ui->tableWidgetCode->columnCount(); ++i )
+		{
+			pItem = ui->tableWidgetCode->item( row, i );
+			if( pItem != 0 )
+			{
+				pItem->setBackgroundColor( QColor( Qt::yellow ) );
+			}
+		}
+	}
+}
+
+void Debugger::setupExecution()
+{
+	emit stepInto();
+	m_autoStepping = true;
 }
 
 void Debugger::updateP()
