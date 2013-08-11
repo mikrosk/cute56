@@ -114,6 +114,15 @@ void Debugger::initData( dsp_core_t* pCore )
 
 			ui->tableWidgetCode->setItem( row, col, new QTableWidgetItem( tokens.takeFirst().simplified().replace( "0x", "$" ) ) );
 		}
+
+		if( m_breakpoints.contains( addr ) )
+		{
+			setLineBackgroundColor( row, Qt::yellow );
+		}
+		else
+		{
+			setLineBackgroundColor( row, Qt::white );
+		}
 	}
 
 	ui->tableWidgetCode->resizeRowsToContents();
