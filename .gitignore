@@ -1,3 +1,13 @@
 *.user
 *.user.*
 *~
+x64/
+Debug/
+Release/
+*.filters
+*.sdf
+*.opensdf
+*.suo
+GeneratedFiles/
+build-*-Release
+build-*-Debug
