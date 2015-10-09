@@ -7,8 +7,11 @@ DEFINES	+= \
     HOST \
     ATARI_LIBRARY
 
-win32:QMAKE_CFLAGS += /TP
-else:QMAKE_CFLAGS += -std=c99
+unix:QMAKE_CFLAGS += -std=c99
+else:{
+    win32-g++:QMAKE_CFLAGS += -std=c99
+    else:QMAKE_CFLAGS += /TP
+}
 
 SOURCES	+= \
 	atari.c \
