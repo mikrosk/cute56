@@ -31,7 +31,7 @@ DSP_SOURCES = \
 win32 {
 	ASM56000 = C:\Program Files (x86)\Motorola\DSP\dsp\bin\asm56000.exe
 	CLDLOD	 = C:\Program Files (x86)\Motorola\DSP\dsp\bin\cldlod.exe
-	LOD2P56	 = C:\Users\miroslavk\bin\lod2p56.exe
+	LOD2P56	 = $$(HOMEPATH)\bin\lod2p56.exe
         WINE     =
 }
 else {
