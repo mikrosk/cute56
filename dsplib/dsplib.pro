@@ -2,7 +2,11 @@ TEMPLATE= lib
 TARGET	= dsp
 QT      -= gui
 
-win32:QMAKE_CFLAGS += /D_CRT_SECURE_NO_WARNINGS
+win32:{
+    win32-g++:
+    else:QMAKE_CFLAGS += /D_CRT_SECURE_NO_WARNINGS
+}
+
 
 DEFINES += \
     DSP_LIBRARY

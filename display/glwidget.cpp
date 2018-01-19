@@ -1,5 +1,7 @@
 #include "glwidget.h"
 
+#include <cmath>
+#include <algorithm>
 #include <QDebug>
 #include <QTimer>
 
@@ -15,6 +17,10 @@ GLWidget::GLWidget( QWidget* parent )
 
 void GLWidget::initializeGL()
 {
+	const Bitmap* pScreen = AtariThread::screenBitmap();
+	if( pScreen == 0) return;
+
+	setMinimumSize( pScreen->width*2, pScreen->height*2);
 }
 
 void GLWidget::resizeGL( int w, int h )
@@ -28,23 +34,25 @@ void GLWidget::resizeGL( int w, int h )
 void GLWidget::paintGL()
 {
 	const Bitmap* pScreen = AtariThread::screenBitmap();
-	if( pScreen != 0 )
-	{
-		//glRasterPos2f( 0, 2 * pScreen->height - 0.1 );
-		glRasterPos2i( 0, 2 * pScreen->height );
-		glPixelZoom( 2, -2 );
-		glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-		glDrawPixels( pScreen->width, pScreen->height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, pScreen->pixels.pUnknown );
+	if( pScreen == 0) return;
 
-		setMinimumSize( 2 * pScreen->width, 2 * pScreen->height );
-		setMaximumSize( 2 * pScreen->width, 2 * pScreen->height );
+	int winWidth = this->width();
+	int winHeight = this->height();
+	int height = pScreen->height;
+	int width = pScreen->width;
 
-		QWidget* parent = dynamic_cast<QWidget*>( this->parent() );
-		if( parent != 0 )
-		{
-			parent->resize( 2 * pScreen->width, 2 * pScreen->height );
-		}
-	}
+	float zoomFactor = std::min( (winWidth/(float)width),(winHeight/(float)height) );
+
+	int xSize = (int)std::ceil(width*zoomFactor);
+	int ySize = (int)std::ceil(height*zoomFactor);
+	int yPad = std::max(winHeight-ySize, 0)/2;
+	int xPad = std::max(winWidth-xSize, 0)/2;
+
+	glRasterPos2i( xPad, ySize+yPad );
+	glPixelZoom( zoomFactor, -zoomFactor);
+
+	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+	glDrawPixels( width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, pScreen->pixels.pUnknown );
 
 	emit vbl();
 }
