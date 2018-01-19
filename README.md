@@ -37,7 +37,7 @@ Trolltech/Nokia/Digia has developed a nice plugin for Visual Studio which allows
 Native build
 ------------
 
-So you want to try it in a _real_ emulator. Open a console (oh yeah), go to the `atari-build` directory, edit the `Makefile` (if needed) and type `make`. This should produce `atari.tos` binary, which you can run in an emulator ([Hatari] [1]). `main.c` is quite a mess (a lot of `#ifdef`s for host/native build) but usually you want to put these things into a library and forget about them. I just didn't want to complicate it more (another project, dependency etc). I guess this could be automated more (and perhaps included in the Qt Creator project) but I was lazy and in rush, blah blah.
+So you want to try it in a _real_ emulator. Open a console (oh yeah), go to the `atari-build` directory, edit the `Makefile` (if needed) and type `make`. This should produce `atari.tos` binary, which you can run in an emulator (Hatari). `main.c` is quite a mess (a lot of `#ifdef`s for host/native build) but usually you want to put these things into a library and forget about them. I just didn't want to complicate it more (another project, dependency etc). I guess this could be automated more (and perhaps included in the Qt Creator project) but I was lazy and in rush, blah blah.
 
 Warning
 -------
