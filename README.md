@@ -1,23 +1,12 @@
 cute56
 ======
 
-cute56 is a Qt based simulator &amp; debugger for DSP 56001 development. Its target audience is mostly myself :) but if you would like to experiment with C/C++ and [Motorola DSP 56001] [2] assembler, it might be the right tool for you (without the need of installing [Hatari] [1] for instance). The main advantage (as I see it) is that when you manage to make a nice multiplatform library for common tasks (setting up the screen, timers, dsp communication, ... ) you can completely forget whether you're targeting the native platform (Atari m68k in my case) or the host.
-
-  [1]: http://hatari.tuxfamily.org "Hatari"
-  [2]: http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=DSP56001 "Motorola DSP 56001"
+cute56 is a Qt based simulator &amp; debugger for DSP 56001 development. Its target audience is mostly myself :) but if you would like to experiment with C/C++ and [Motorola DSP 56001](https://www.nxp.com/products/no-longer-manufactured/24-bit-general-purpose-digital-signal-processor:DSP56001?fsrch=1&sr=1&pageNum=1) assembler, it might be the right tool for you (without the need of installing [Hatari](http://hatari.tuxfamily.org) for instance). The main advantage (as I see it) is that when you manage to make a nice multiplatform library for common tasks (setting up the screen, timers, dsp communication, ... ) you can completely forget whether you're targeting the native platform (Atari m68k in my case) or the host.
 
 Prerequisites
 -------------
 
-I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile most of this stuff by yourself, nothing for pussies :) First of all, go to the `tools` directory and install `Win56000.exe`. Non-windows users, use [Wine] [9] for this task. Alternatively, you can use [asm56k] [3] by Sqward but you need a minor tweak to calc.asm's macros (`src`/`dst` -> `\1`) and use different command line arguments. For m68k code you need either [vasm] [4] by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools] [5]. Another option is to use Frank's great [vbcc] [7] but I'm more used to `gcc`. And finally (not mandatory but it will make your start with this project easier) [Qt Creator] [6] by Digia. This will provide you also all the needed tools and libraries for compilation of the main project. You're looking for `Qt X.Y.Z for ...` archive. __Windows users__, please note that you need to download the `OpenGL` version of Qt libraries, as the default one is using [ANGLE] [8], lacking some (deprecated yet simple) functions cute56 is using.
-
-  [3]: https://bitbucket.org/sqward/asm56k "asm56k"
-  [4]: http://sun.hasenbraten.de/vasm "vasm"
-  [5]: http://vincent.riviere.free.fr/soft/m68k-atari-mint "m68k cross tools"
-  [6]: http://qt-project.org/downloads "Qt Creator"
-  [7]: http://sun.hasenbraten.de/vbcc "vbcc"
-  [8]: https://code.google.com/p/angleproject "ANGLE"
-  [9]: http://www.winehq.org "wine"
+I'll describe my scenario, if you don't want to mess with m68k at all, you can skip most of it. Also be aware of the fact that you need to compile most of this stuff by yourself, nothing for pussies :) First of all, go to the `tools` directory and install `Win56000.exe`. Non-windows users, use [Wine](http://www.winehq.org) for this task. Alternatively, you can use [asm56k](https://bitbucket.org/sqward/asm56k) by Sqward but you need a minor tweak to calc.asm's macros (`src`/`dst` -> `\1`) and use different command line arguments. For m68k code you need either [vasm](http://sun.hasenbraten.de/vasm) by Frank Wille or, if you prefer to have your code in C (what I strongly recommend for the initial phase of your project, optimize as the last thing), download Vincent Riviere's great [m68k cross tools](http://vincent.riviere.free.fr/soft/m68k-atari-mint). Another option is to use Frank's great [vbcc](http://sun.hasenbraten.de/vbcc) but I'm more used to `gcc`. And finally (not mandatory but it will make your start with this project easier) [Qt Creator](https://www1.qt.io/offline-installers/#section-2) by The Qt Company. This will provide you also all the needed tools and libraries for compilation of the main project. You're looking for `Qt X.Y.Z for ...` archive. __Windows users__, please note that you need to download the `OpenGL` version of Qt libraries, as the default one is using [ANGLE](https://chromium.googlesource.com/angle/angle/+/master/README.md), lacking some (deprecated yet simple) functions cute56 is using. (Update 2018: It seems that Qt is not provided in the OpenGL version since version 5.5...)
 
 I've tested compilation on Arch Linux (both 32-bit and 64-bit) and Windows 7/64-bit, it should work out of the box.
 
@@ -38,11 +27,7 @@ You should see a message `Failed to load Atari Library`, that's fine, we haven't
 
 Troubleshooting
 ---------------
-Right now, everything works for me but be aware of following. If using __Windows__, `asm56k` should be compiled against [MinGW] [10] and not [Cygwin] [11] (because of dependencies, Unix path handling etc). Not saying it's not possible but it requires to be an advance user. Second thing is a crash due to OpenGL's `glRasterPos()` handling. If you are confident everything is installed and it should work and you are still getting crashes, try this: change `glRasterPos2i( 0, 2 * pScreen->height );` to `glRasterPos2f( 0, 2 * pScreen->height - 0.1 );` in `glwidget.cpp`. If still getting crashes, you can try `glRasterPos2f( 0, 2 * pScreen->height - 1 );` as the last resort. Look [here] [12] for more details.
-
-  [10]: http://www.mingw.org "MinGW"
-  [11]: http://www.cygwin.com "Cygwin"
-  [12]: http://www.graphicsgroups.com/6-opengl/7a536eebc180993d.htm "Graphics Groups"
+Right now, everything works for me but be aware of following. If using __Windows__, `asm56k` should be compiled against [MinGW](http://www.mingw.org) and not [Cygwin](http://www.cygwin.com) (because of dependencies, Unix path handling etc). Not saying it's not possible but it requires to be an advance user. Second thing is a crash due to OpenGL's `glRasterPos()` handling. If you are confident everything is installed and it should work and you are still getting crashes, try this: change `glRasterPos2i( 0, 2 * pScreen->height );` to `glRasterPos2f( 0, 2 * pScreen->height - 0.1 );` in `glwidget.cpp`. If still getting crashes, you can try `glRasterPos2f( 0, 2 * pScreen->height - 1 );` as the last resort.
 
 Visual C++
 ----------
