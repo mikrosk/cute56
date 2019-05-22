@@ -23,8 +23,8 @@ FORMS    += mainwindow.ui \
 	moduledialog.ui \
 	debugger.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../dsplib/release/ -ldsp
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../dsplib/debug/ -ldsp
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../dsplib/release/ -ldsp -lOpenGL32
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../dsplib/debug/ -ldsp -lOpenGL32
 else:unix: LIBS += -L$$OUT_PWD/../dsplib/ -ldsp
 
 INCLUDEPATH += $$PWD/../dsplib
