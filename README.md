@@ -48,3 +48,5 @@ Contact and license
 -------------------
 
 All this stuff is free software, licensed under GPLv3 license. In a nutshell: you don't need to provide source code to your demos developed with this but if you change something in the simulator and/or want to publish the binary, you should publish also the source code. Feel free to drop me an email to <miro.kropacek@gmail.com> with any questions / improvements / ideas.
+
+Btw, the DSP emulation is based on commit https://github.com/hatari/hatari/commit/a027c905 from June 2009.
