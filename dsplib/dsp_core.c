@@ -61,7 +61,7 @@ void dsp_core_init(dsp_core_t *dsp_core)
 
 	/* Initialize Y:rom[0x0100-0x01ff] with a sin table */
 	for (i=0;i<256;i++) {
-		double src = (((double) i)*M_PI)/128.0;
+		float src = (((float) i)*M_PI)/128.0;
 		Sint32 dest = (Sint32) (sin(src) * 8388608.0); /* 1<<23 */
 		if (dest>8388607) {
 			dest = 8388607;
