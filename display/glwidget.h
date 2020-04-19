@@ -1,22 +1,25 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 
-class GLWidget : public QGLWidget
+class QImage;
+
+class GLWidget : public QOpenGLWidget
 {
     Q_OBJECT
 
 public:
-    explicit GLWidget( QWidget* parent = 0 );
+	explicit GLWidget(QWidget* parent = 0);
 
 protected:
-    virtual void initializeGL();
-    virtual void resizeGL( int w, int h );
     virtual void paintGL();
 
 signals:
 	void vbl();
+
+private:
+	QImage* m_pScreenImage = { nullptr };
 };
 
 #endif // GLWIDGET_H

@@ -1,58 +1,38 @@
 #include "glwidget.h"
 
-#include <cmath>
-#include <algorithm>
-#include <QDebug>
+#include <QImage>
+#include <QOpenGLPaintDevice>
+#include <QPainter>
 #include <QTimer>
 
 #include "atarithread.h"
 
 GLWidget::GLWidget( QWidget* parent )
-	: QGLWidget( parent )
+	: QOpenGLWidget( parent )
 {
-	QTimer* timer = new QTimer( this );
-	connect( timer, SIGNAL( timeout() ), this, SLOT( updateGL() ) );
-	timer->start( 1000 / SCREEN_RATE );
-}
-
-void GLWidget::initializeGL()
-{
-	const Bitmap* pScreen = AtariThread::screenBitmap();
-	if( pScreen == 0) return;
-
-	setMinimumSize( pScreen->width*2, pScreen->height*2);
-}
-
-void GLWidget::resizeGL( int w, int h )
-{
-	glViewport( 0, 0, w, h );
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	glOrtho( 0, w, 0, h, -1, 1 );
+	QTimer* timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+	timer->start(1000 / SCREEN_RATE);
 }
 
 void GLWidget::paintGL()
 {
 	const Bitmap* pScreen = AtariThread::screenBitmap();
-	if( pScreen == 0) return;
+	if(!pScreen || !pScreen->pixels.pUnknown)
+		return;
 
-	int winWidth = this->width();
-	int winHeight = this->height();
-	int height = pScreen->height;
-	int width = pScreen->width;
+	if (!m_pScreenImage) {
+		m_pScreenImage = new QImage(pScreen->width, pScreen->height, QImage::Format_RGB16);
+		setMinimumSize(pScreen->width * 2, pScreen->height * 2);
+	}
 
-	float zoomFactor = std::min( (winWidth/(float)width),(winHeight/(float)height) );
+	memcpy(m_pScreenImage->bits(), pScreen->pixels.pUnknown, pScreen->width * pScreen->height * 2);
 
-	int xSize = (int)std::ceil(width*zoomFactor);
-	int ySize = (int)std::ceil(height*zoomFactor);
-	int yPad = std::max(winHeight-ySize, 0)/2;
-	int xPad = std::max(winWidth-xSize, 0)/2;
-
-	glRasterPos2i( xPad, ySize+yPad );
-	glPixelZoom( zoomFactor, -zoomFactor);
-
-	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-	glDrawPixels( width, height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, pScreen->pixels.pUnknown );
+	QOpenGLPaintDevice device(width(), height());
+	QPainter painter;
+	painter.begin(&device);
+	painter.drawImage(QRect(0, 0, width(), height()), *m_pScreenImage, QRect(0, 0, m_pScreenImage->width(), m_pScreenImage->height()));
+	painter.end();
 
 	emit vbl();
 }

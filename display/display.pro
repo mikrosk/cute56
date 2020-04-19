@@ -1,5 +1,4 @@
-QT	+= core gui opengl
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT	+= core gui widgets
 
 TARGET	= cute56
 TEMPLATE = app
